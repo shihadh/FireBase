@@ -9,8 +9,6 @@ class Detailes extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final user = Provider.of<HomeController>(context, listen: false).userData[index];
-
     return Scaffold(
       appBar: AppBar(
         title: const Text("User Details"),

@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:first/core/constants/color_constant.dart';
 import 'package:first/features/detailes/view/detailes.dart';
 import 'package:first/features/home/controller/home_controller.dart';
