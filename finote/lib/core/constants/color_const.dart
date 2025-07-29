@@ -10,6 +10,15 @@ class ColorConst {
   static Color grey = Colors.grey.shade500;
   static Color greyopacity = Colors.grey.shade400;
   static final Color success =const Color.fromARGB(255, 0, 231, 108);
+  
+  //business
+
+  static Color premiumBg = Color.fromARGB(255, 79, 63, 41);
+  static Color premium = Color.fromARGB(255, 247, 236, 193);
+  static Color blueBg = Color.fromARGB(255, 239, 246, 255);
+  static Color greenBg = Color.fromARGB(255, 236, 253, 245);
+  static const Color blueAccent = Colors.blueAccent;
+
 
 
 }

@@ -1,9 +1,10 @@
 import 'package:finote/core/constants/asset_constants.dart';
 import 'package:finote/core/constants/color_const.dart';
 import 'package:finote/core/constants/text_const.dart';
-import 'package:finote/core/widgets/auth_container_widget.dart';
-import 'package:finote/features/register/controller/register_controller.dart';
-import 'package:finote/core/widgets/textfield_widget.dart';
+import 'package:finote/features/shared/widgets/auth_container_widget.dart';
+import 'package:finote/features/auth/view/login.dart';
+import 'package:finote/features/auth/controller/register_controller.dart';
+import 'package:finote/features/shared/widgets/textfield_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -142,7 +143,7 @@ class CardWidget extends StatelessWidget {
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton.icon(
-                    onPressed: () async{
+                    onPressed: ()async{
                       if (!value.agreeTerms) {
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
@@ -161,7 +162,7 @@ class CardWidget extends StatelessWidget {
                         return;
                       }
 
-                      value.register(formkey, context);
+                     await value.register(formkey, context);
                       
                       if (value.error != null) {
                         ScaffoldMessenger.of(context).showSnackBar(
@@ -191,7 +192,7 @@ class CardWidget extends StatelessWidget {
                             content: Text(TextConst.signUpSuccess),
                           ),
                         );
-                       // Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => ,));
+                       Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => LoginPage(),));
                         return;
                       }
                     },

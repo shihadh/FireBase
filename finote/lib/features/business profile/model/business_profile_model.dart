@@ -11,9 +11,9 @@ class BusinessProfileModel {
     this.id
   });
 
-  factory BusinessProfileModel.fromJson(Map<String,dynamic>json){
+  factory BusinessProfileModel.fromJson(Map<String,dynamic>json,String id){
     return (
-      BusinessProfileModel(name: json['name'], currency: json['currency'],gstID: json['Gst_id'],id: json['id'])
+      BusinessProfileModel(name: json['name'], currency: json['currency'],gstID: json['Gst_id'], id: id)
     );
   }
 

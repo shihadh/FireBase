@@ -1,27 +1,25 @@
 import 'package:finote/core/constants/color_const.dart';
-import 'package:finote/core/service/auth_service.dart';
+import 'package:finote/features/shared/service/auth_service.dart';
+import 'package:finote/features/business%20profile/view/business_profile_page.dart';
+import 'package:finote/features/home/view/home.dart';
 import 'package:flutter/material.dart';
 
-class RegisterController extends ChangeNotifier {
+class LoginController extends ChangeNotifier{
+
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-  TextEditingController confirmPasswordController = TextEditingController();
-  bool agreeTerms = false;
+  String? error;
   bool loading = false;
   bool stats = false;
-
-  String? error;
+  bool firstTime = false;
   AuthService authService = AuthService();
-  void checkbox(bool value) {
-    agreeTerms = value;
-    notifyListeners();
-  }
 
-  void register(GlobalKey<FormState> formKey, BuildContext context) async {
+  Future<void> login(GlobalKey<FormState> formKey, BuildContext context) async {
     if (formKey.currentState!.validate()) {
+      error=null;
       loading =true;
       notifyListeners();
-      var (data, errors) = await authService.register(
+      var (data, errors,first) = await authService.login(
         emailController.text.trim(),
         passwordController.text.trim(),
       );
@@ -30,8 +28,10 @@ class RegisterController extends ChangeNotifier {
       }
       if(data != null){
         stats = true;
+        firstTime = first;
+        emailController.clear();
+        passwordController.clear();
       }
-      await Future.delayed(Duration(seconds: 1));
       loading=false;
       notifyListeners();
     }
@@ -39,11 +39,20 @@ class RegisterController extends ChangeNotifier {
   }
 
   void googleSign(BuildContext context) async {
-    var (data, errors) = await authService.signWithgoogle();
+      error=null;
+    var (data, errors,first) = await authService.signWithgoogle();
     if (errors != null) {
       error = errors;
     }
     if(data != null){
+        stats = true;
+        if(first == true){
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => BusinessProfilePage(),));
+      }
+      if(first== false){
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) =>HomePage(),));
+
+      }
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           behavior: SnackBarBehavior.floating,

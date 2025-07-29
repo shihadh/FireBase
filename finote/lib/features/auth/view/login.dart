@@ -1,12 +1,11 @@
 import 'package:finote/core/constants/asset_constants.dart';
 import 'package:finote/core/constants/color_const.dart';
-import 'package:finote/core/constants/text_const.dart';
-import 'package:finote/features/login/view/login.dart';
-import 'package:finote/features/register/widgets/card_widget.dart';
+import 'package:finote/features/auth/widgets/login/card_widget.dart';
+import 'package:finote/features/auth/view/register_page.dart';
 import 'package:flutter/material.dart';
 
-class RegisterPage extends StatelessWidget {
-  RegisterPage({super.key});
+class LoginPage extends StatelessWidget {
+  LoginPage({super.key});
   final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
@@ -19,6 +18,7 @@ class RegisterPage extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
+                // Logo Placeholder
                 SizedBox(
                   height: 100,
                   width: 100,
@@ -26,15 +26,15 @@ class RegisterPage extends StatelessWidget {
                     fit: BoxFit.cover,
                     AssetConstants.logo),
                 ),
-                const SizedBox(height: 8),
+                const SizedBox(height: 20),
 
                 const Text(
-                  TextConst.signup,
+                  "Welcome back",
                   style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(height: 8),
                 const Text(
-                  "Start managing your finances today",
+                  "Sign in to continue to your account",
                   style: TextStyle(fontSize: 14, color: ColorConst.blackopacity),
                 ),
                 const SizedBox(height: 30),
@@ -44,13 +44,14 @@ class RegisterPage extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Text("Already have an account? "),
+                    const Text("Create account? "),
                     GestureDetector(
                       onTap: () {
-                        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => LoginPage(),));
+                        // Navigate to sign in
+                        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => RegisterPage(),));
                       },
                       child: const Text(
-                        "Sign in",
+                        "Sign up",
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           decoration: TextDecoration.underline,

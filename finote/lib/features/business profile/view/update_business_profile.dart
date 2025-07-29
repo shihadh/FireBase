@@ -1,19 +1,35 @@
+import 'dart:developer';
+
 import 'package:finote/core/constants/color_const.dart';
 import 'package:finote/core/constants/text_const.dart';
 import 'package:finote/features/bottom%20navigation/view/bottom_navigation.dart';
-import 'package:finote/features/business%20profile/controller/business_controller.dart';
+import 'package:finote/features/business%20profile/controller/update_business_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 
-class BusinessProfilePage extends StatelessWidget {
-  const BusinessProfilePage({super.key});
+class UpdateBusinessProfile extends StatelessWidget {
 
+  final String name;
+  final String gst;
+  final String id;
+
+  const UpdateBusinessProfile({super.key,required this.name,required this.gst,required this.id});
+  
   @override
   Widget build(BuildContext context) {
     final formKey = GlobalKey<FormState>();
-    final controller = Provider.of<BusinessController>(context);
+    final controller = Provider.of<UpdateBusinessController>(context);
+    controller.updateNameController.text =name;
+    controller.updateGstController.text =gst;
 
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: ColorConst.backgroundColor,
+        leading: IconButton(onPressed: (){
+          Navigator.pop(context);
+        }, icon: Icon(Icons.arrow_back_rounded)),
+      ),
       backgroundColor: ColorConst.backgroundColor,
       body: SingleChildScrollView(
         child: Center(
@@ -29,18 +45,18 @@ class BusinessProfilePage extends StatelessWidget {
                     color: ColorConst.black,
                     borderRadius: BorderRadius.circular(20),
                   ),
-                  child: const Icon(Icons.apartment, color: ColorConst.white, size: 40),
+                  child: const Icon(FontAwesomeIcons.building, color: ColorConst.white, size: 40),
                 ),
                 const SizedBox(height: 20),
 
                 // Title & Subtitle
                 Text(
-                  TextConst.pageTitle,
+                  TextConst.updatePagetitle,
                   style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(height: 8),
                 Text(
-                  TextConst.pageSubtitle,
+                  TextConst.updatePageSubtitle,
                   style: const TextStyle(fontSize: 14, color: ColorConst.blackopacity),
                   textAlign: TextAlign.center,
                 ),
@@ -61,7 +77,7 @@ class BusinessProfilePage extends StatelessWidget {
                           const Text(TextConst.businessNameLabel),
                           const SizedBox(height: 6),
                           TextFormField(
-                            controller: controller.businessNameController,
+                            controller: controller.updateNameController,
                             validator: (val) =>
                                 val == null || val.isEmpty ? 'Please enter business name' : null,
                             decoration: _inputDecoration(TextConst.businessNameHint),
@@ -72,7 +88,7 @@ class BusinessProfilePage extends StatelessWidget {
                           const Text(TextConst.currencyLabel),
                           const SizedBox(height: 6),
                           DropdownButtonFormField<String>(
-                            value: controller.selectedCurrency,
+                            value: controller.selectedCurrency, //
                             items: TextConst.currencyList
                                 .map((currency) => DropdownMenuItem(
                                       value: currency,
@@ -97,7 +113,7 @@ class BusinessProfilePage extends StatelessWidget {
                           ),
                           const SizedBox(height: 6),
                           TextFormField(
-                            controller: controller.gstController,
+                            controller: controller.updateGstController,
                             decoration: _inputDecoration(TextConst.gstHint),
                           ),
                           const SizedBox(height: 24),
@@ -108,10 +124,11 @@ class BusinessProfilePage extends StatelessWidget {
                             child: ElevatedButton(
                               onPressed: () async{
                                 if (formKey.currentState!.validate()) {
-                                  await controller.addData();
+                                  log(' ooooooo$id');
+                                  await controller.updateData(id);
                                   if(controller.success == true){
                                     ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(content: Text(TextConst.profileSucess)),
+                                    const SnackBar(content: Text(TextConst.updateSucess)),
                                   );
                                   Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => MainBottomNavScreen(),));
                                   }

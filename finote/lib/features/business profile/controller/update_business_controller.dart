@@ -1,11 +1,10 @@
-import 'package:finote/features/shared/service/business_profile_service.dart';
 import 'package:finote/features/business%20profile/model/business_profile_model.dart';
+import 'package:finote/features/shared/service/business_profile_service.dart';
 import 'package:flutter/material.dart';
 
-class BusinessController extends ChangeNotifier{
-
-  final TextEditingController businessNameController = TextEditingController();
-  final TextEditingController gstController = TextEditingController();
+class UpdateBusinessController extends ChangeNotifier{
+  final TextEditingController updateNameController = TextEditingController();
+  final TextEditingController updateGstController = TextEditingController();
   BusinessProfileService profileService = BusinessProfileService();
   String? error;
   bool loading =false;
@@ -20,7 +19,7 @@ class BusinessController extends ChangeNotifier{
     }
 }
 
-  Future<void> addData()async{
+Future<void> updateData(String id)async{
       String contry;
       contry =selectedCurrency;
       loading = true;
@@ -35,11 +34,11 @@ class BusinessController extends ChangeNotifier{
         contry = "EUROPE";
       }
       BusinessProfileModel model = BusinessProfileModel(
-        name: businessNameController.text.trim(), 
-        currency: contry.trim(),
-        gstID: gstController.text.trim().isNotEmpty ? gstController.text.trim() : 'N/N'
+        name: updateNameController.text.trim(), 
+        currency: contry,
+        gstID: updateGstController.text.trim().isNotEmpty ? updateGstController.text.trim() : 'N/N'
         );
-      var (stat,errors) = await profileService.addProfile(model);
+      var (stat,errors) = await profileService.update(model,id);
       if(errors != null){
         error =errors;
       }
@@ -49,6 +48,5 @@ class BusinessController extends ChangeNotifier{
       }
       loading = false;
       notifyListeners();
-    }
-
+    } 
 }

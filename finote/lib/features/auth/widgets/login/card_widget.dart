@@ -1,9 +1,12 @@
 import 'package:finote/core/constants/asset_constants.dart';
 import 'package:finote/core/constants/color_const.dart';
 import 'package:finote/core/constants/text_const.dart';
-import 'package:finote/core/widgets/auth_container_widget.dart';
-import 'package:finote/features/login/controller/login_controller.dart';
-import 'package:finote/core/widgets/textfield_widget.dart';
+import 'package:finote/features/shared/widgets/auth_container_widget.dart';
+import 'package:finote/features/bottom%20navigation/view/bottom_navigation.dart';
+import 'package:finote/features/business%20profile/view/business_profile_page.dart';
+import 'package:finote/features/home/view/home.dart';
+import 'package:finote/features/auth/controller/login_controller.dart';
+import 'package:finote/features/shared/widgets/textfield_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -93,10 +96,10 @@ class CardWidget extends StatelessWidget {
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton.icon(
-                    onPressed: () {
+                    onPressed: () async{
                       
 
-                      value.login(formkey, context);
+                     await value.login(formkey, context);
 
                       if (value.error != null) {
                         ScaffoldMessenger.of(context).showSnackBar(
@@ -128,10 +131,10 @@ class CardWidget extends StatelessWidget {
                           ),
                         );
                         if(value.firstTime == true){
-                       // Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => ,)); // create business profile
+                       Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => BusinessProfilePage(),)); // create business profile
 
                         }else{
-                       // Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => ,)); // to home
+                       Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => MainBottomNavScreen(),)); // to home
 
                         }
                         return;
@@ -150,7 +153,7 @@ class CardWidget extends StatelessWidget {
                       color: ColorConst.white,
                     ),
                     label: value.loading==true? CircularProgressIndicator(color: ColorConst.white,): Text(
-                      TextConst.signup,
+                      TextConst.signin,
                       style: TextStyle(fontSize: 16, color: ColorConst.white),
                     ),
                   ),
