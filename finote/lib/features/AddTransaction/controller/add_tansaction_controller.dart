@@ -1,5 +1,5 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:finote/core/constants/text_const.dart';
+import 'dart:developer';
+
 import 'package:finote/features/AddTransaction/model/transation_model.dart';
 import 'package:finote/features/shared/service/transation_service.dart';
 import 'package:flutter/material.dart';
@@ -11,6 +11,9 @@ class AddTansactionController extends ChangeNotifier {
   final noteController = TextEditingController();
   TransationService transationService = TransationService();
   List<TransationModel> transations = [];
+  double totalIncome= 0.0;
+  double totalExpense= 0.0;
+  double totalBalance= 0.0;
   String? error;
   bool loading = false;
   bool status= false;
@@ -46,12 +49,27 @@ class AddTansactionController extends ChangeNotifier {
   }
 
   Future<void>get()async{
+    totalIncome = 0.0;
+    totalExpense = 0.0;
+    totalBalance = 0.0;
     var (data, errors) = await transationService.getTransation();
     if(errors != null){
       error= errors;
     }
     if(data != null){
       transations = data;
+      for(var item in data){
+        if(item.type == 'income'){
+          int amount = int.parse("${item.amount}");
+          totalIncome +=amount;
+        }else if(item.type == 'expence'){
+          int amount = int.parse("${item.amount}");
+          totalExpense +=amount;
+        }
+      }
+      totalBalance = totalIncome - totalExpense;
+      log(totalBalance.toString());
+
     }
     notifyListeners();
   }

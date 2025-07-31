@@ -7,9 +7,12 @@ class ColorConst {
   static const Color danger = Colors.red;
   static const Color blackopacity = Colors.black54;
   static const Color transparent = Colors.transparent;
+  static Color green = Colors.green.shade700;
   static Color grey = Colors.grey.shade500;
   static Color greyopacity = Colors.grey.shade400;
   static final Color success =const Color.fromARGB(255, 0, 231, 108);
+  static const Color dangerbg = Color.fromARGB(255, 254, 242, 242);
+
   
   //business
 

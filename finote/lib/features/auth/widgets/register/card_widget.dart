@@ -1,6 +1,7 @@
 import 'package:finote/core/constants/asset_constants.dart';
 import 'package:finote/core/constants/color_const.dart';
 import 'package:finote/core/constants/text_const.dart';
+import 'package:finote/features/auth/view/phone_verify.dart';
 import 'package:finote/features/shared/widgets/auth_container_widget.dart';
 import 'package:finote/features/auth/view/login.dart';
 import 'package:finote/features/auth/controller/register_controller.dart';
@@ -86,16 +87,18 @@ class CardWidget extends StatelessWidget {
                         
                       },
                     ),
-                    AuthContainerWidget(
-                      path: AssetConstants.facebook,
-                      function: () {
-                        // facebook auth
-                      },
-                      ),
+                    // AuthContainerWidget(
+                    //   path: AssetConstants.facebook,
+                    //   function: () {
+                    //     // facebook auth
+                    //   },
+                    //   ),
                     AuthContainerWidget(
                       path: AssetConstants.phone,
                       function: () {
                         // phone verify
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => PhoneVerifyPage(),));
+
                       },
                       ),
                   ],

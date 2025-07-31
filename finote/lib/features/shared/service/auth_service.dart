@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -96,6 +97,65 @@ class AuthService {
     } catch (e) {
       log(e.toString());
       return (null, e.toString(), first);
+    }
+  }
+
+  Future<(bool,String?,String?)>phoneVerification(String phoneNumber)async{
+    try{
+      final completer = Completer<(bool, String?, String?)>();
+      String? error;
+      await FirebaseAuth.instance.verifyPhoneNumber(
+        phoneNumber: phoneNumber,
+        timeout: const Duration(seconds: 60),
+        verificationCompleted: (PhoneAuthCredential credential)async{
+          await FirebaseAuth.instance.signInWithCredential(credential);
+          completer.complete((true,null,null));
+        }, 
+        verificationFailed: (FirebaseAuthException e){
+          error = e.code == 'invalid-phone-number' ? 'The provided phone number is not valid.': e.message;
+    
+        error = e.code.toString();
+        completer.complete((false,error,null));
+        },
+        codeSent: (String verificationId, int? resendToken)async{
+          log("service $verificationId");
+          completer.complete((true,null,verificationId));
+        },
+        codeAutoRetrievalTimeout: (String verificationId){}
+        );
+
+        return completer.future;
+    }catch(e){
+      return (false,e.toString(),null);
+    }
+  }
+
+  Future<(bool,String?,bool)>otpVerification(String otp, String verificationId)async{
+    try{
+      final credential = PhoneAuthProvider.credential(verificationId: verificationId, smsCode: otp);
+      final userCredential = await FirebaseAuth.instance.signInWithCredential(credential);
+      final uid = userCredential.user?.uid;
+      if (uid == null) {
+      return (true, "User ID not found",first);
+    }
+
+    final doc = await FirebaseFirestore.instance
+        .collection('profile')
+        .doc(uid)
+        .get();
+
+    if (!doc.exists ||
+        (doc.data()?['name'] == '' &&
+         doc.data()?['currency'] == '' &&
+         doc.data()?['Gst_id'] == '')) {
+      first = true;
+      log('First time login');
+    }
+      log(credential.toString());
+      return (true,null,first);
+    }catch(e){
+      log(e.toString());
+      return (false,e.toString(),first);
     }
   }
 

@@ -1,7 +1,9 @@
+import 'dart:developer';
+
 import 'package:finote/core/constants/color_const.dart';
+import 'package:finote/features/bottom%20navigation/view/bottom_navigation.dart';
 import 'package:finote/features/shared/service/auth_service.dart';
 import 'package:finote/features/business%20profile/view/business_profile_page.dart';
-import 'package:finote/features/home/view/home.dart';
 import 'package:flutter/material.dart';
 
 class LoginController extends ChangeNotifier{
@@ -50,7 +52,8 @@ class LoginController extends ChangeNotifier{
         Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => BusinessProfilePage(),));
       }
       if(first== false){
-        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) =>HomePage(),));
+        log("message");
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) =>MainBottomNavScreen(),));
 
       }
       ScaffoldMessenger.of(context).showSnackBar(

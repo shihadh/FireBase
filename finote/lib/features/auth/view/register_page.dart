@@ -34,7 +34,7 @@ class RegisterPage extends StatelessWidget {
                 ),
                 const SizedBox(height: 8),
                 const Text(
-                  "Start managing your finances today",
+                  TextConst.signUpSubTitle,
                   style: TextStyle(fontSize: 14, color: ColorConst.blackopacity),
                 ),
                 const SizedBox(height: 30),
@@ -44,13 +44,13 @@ class RegisterPage extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Text("Already have an account? "),
+                    const Text(TextConst.alreadyAccount),
                     GestureDetector(
                       onTap: () {
                         Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => LoginPage(),));
                       },
                       child: const Text(
-                        "Sign in",
+                        TextConst.signin,
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           decoration: TextDecoration.underline,

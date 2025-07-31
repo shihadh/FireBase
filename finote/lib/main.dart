@@ -1,9 +1,13 @@
 import 'package:finote/features/AddTransaction/controller/add_tansaction_controller.dart';
 import 'package:finote/features/AddTransaction/view/add_transaction_page.dart';
+import 'package:finote/features/auth/controller/phone_verify_controller.dart';
+import 'package:finote/features/auth/view/auth_gate.dart';
+import 'package:finote/features/auth/view/phone_verify.dart';
 import 'package:finote/features/bottom%20navigation/controller/bottom_navigation_controller.dart';
 import 'package:finote/features/business%20profile/controller/business_controller.dart';
 import 'package:finote/features/auth/controller/login_controller.dart';
 import 'package:finote/features/business%20profile/controller/update_business_controller.dart';
+import 'package:finote/features/home/view/home.dart';
 import 'package:finote/features/profile/controller/profile_controller.dart';
 import 'package:finote/features/auth/controller/register_controller.dart';
 import 'package:finote/features/auth/view/register_page.dart';
@@ -24,6 +28,7 @@ void main() async{
       ChangeNotifierProvider(create: (context) => ProfileController(),),
       ChangeNotifierProvider(create: (context) => UpdateBusinessController(),),
       ChangeNotifierProvider(create: (context) => AddTansactionController(),),
+      ChangeNotifierProvider(create: (context) => PhoneVerifyController(),),
     ],
     child: const MyApp()));
 }
@@ -36,7 +41,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       // theme:ThemeData(useMaterial3: true),
       debugShowCheckedModeBanner: false,
-      home:RegisterPage(),
+      home:AuthGate(),
     );
   }
 }

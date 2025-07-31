@@ -7,6 +7,7 @@ class TextConst {
   static const String passIsEmpty = 'Password must be at least 6 characters';
   static const String comformPassfield = "Confirm password";
   static const String matchPass = 'Passwords do not match';
+  static const String thisMonth = 'This month';
 
   static const String signup  = 'Sign Up';
   static const String signin  = 'Sign In';
@@ -21,11 +22,16 @@ class TextConst {
   static const String privacy4  = 'Privacy Policy';
   static const String checkPrivacy  = 'You must agree to the terms to continue.';
   static const String signUpSuccess  = 'Account created!';
+  static const String signUpSubTitle  = "Start managing your finances today";
+  static const String alreadyAccount  = "Already have an account? ";
 
 
   // sign in page
 
   static const String signInSuccess  = 'Sign in successful';
+  static const String  signInTitle = "Welcome back!";
+  static const String  signInSubTitle = "Sign in to continue to your account";
+  static const String  createAccount = "Create account?";
 
 
   // Business Profile(adding)
@@ -89,6 +95,29 @@ class TextConst {
 
   static const String delete = "Delete";
   static const String deleteSucess = "Deleted";
+
+  // phone verify
+
+  static const String phoneTitle = "Verify Your Phone";
+  static const String phoneSubTitle = "Enter your phone number to get started with Finote";
+  static const String phoneNumber = "Phone Number";
+  static const String phoneNumberField = "Enter Your Phone Number";
+  static const String otp = "OTP";
+  static const String otpField = "Enter Your OTP";
+  static const String sendOtp = "Send Verification Code";
+  static const String verify = "verify";
+  static const String verified = "verification Sucessesful";
+  static const String sendSucess = "Otp Send Sucessesful";
+
+
+  //home page
+
+  static const String totalBalance = "Total Balance";
+  static const String income = "Income";
+  static const String expence = "Expenses";
+
+
+
   
 
 

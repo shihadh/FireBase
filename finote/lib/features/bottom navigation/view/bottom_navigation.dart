@@ -1,8 +1,8 @@
 import 'package:finote/core/constants/color_const.dart';
-import 'package:finote/features/AddTransaction/controller/add_tansaction_controller.dart';
 import 'package:finote/features/AddTransaction/view/add_transaction_page.dart';
 import 'package:finote/features/bottom%20navigation/controller/bottom_navigation_controller.dart';
 import 'package:finote/features/history/view/history.dart';
+import 'package:finote/features/home/view/home.dart';
 import 'package:finote/features/profile/controller/profile_controller.dart';
 import 'package:finote/features/profile/view/profile.dart';
 import 'package:flutter/material.dart';
@@ -13,7 +13,7 @@ class MainBottomNavScreen extends StatelessWidget {
   const MainBottomNavScreen({super.key});
 
   final List<Widget> pages = const [
-    Center(child: Text("Home Page")),
+    HomePage(),
     AddTransactionPage(),
     HistoryPage()
   ];
@@ -28,6 +28,7 @@ class MainBottomNavScreen extends StatelessWidget {
         return Scaffold(
           backgroundColor: ColorConst.backgroundColor,
           appBar: AppBar(
+            automaticallyImplyLeading: false, // This hides the back button
           backgroundColor: ColorConst.backgroundColor,
             actions: [
               Padding(

@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:finote/core/constants/color_const.dart';
 import 'package:finote/core/constants/text_const.dart';
 import 'package:finote/features/AddTransaction/controller/add_tansaction_controller.dart';
@@ -149,7 +147,7 @@ class AddTransactionPage extends StatelessWidget {
                         borderRadius: BorderRadius.circular(16),
                       ),
                     ),
-                    child: controller.loading == true ? Center(child: CircularProgressIndicator()): Text(
+                    child: controller.loading == true ? Center(child: CircularProgressIndicator(color: ColorConst.white,)): Text(
                       TextConst.saveTransactionButton,
                       style: TextStyle(
                         color: ColorConst.white,

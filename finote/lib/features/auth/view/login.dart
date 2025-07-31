@@ -1,5 +1,6 @@
 import 'package:finote/core/constants/asset_constants.dart';
 import 'package:finote/core/constants/color_const.dart';
+import 'package:finote/core/constants/text_const.dart';
 import 'package:finote/features/auth/widgets/login/card_widget.dart';
 import 'package:finote/features/auth/view/register_page.dart';
 import 'package:flutter/material.dart';
@@ -29,12 +30,12 @@ class LoginPage extends StatelessWidget {
                 const SizedBox(height: 20),
 
                 const Text(
-                  "Welcome back",
+                  TextConst.signInTitle,
                   style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(height: 8),
                 const Text(
-                  "Sign in to continue to your account",
+                  TextConst.signInSubTitle,
                   style: TextStyle(fontSize: 14, color: ColorConst.blackopacity),
                 ),
                 const SizedBox(height: 30),
@@ -44,14 +45,14 @@ class LoginPage extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Text("Create account? "),
+                    const Text(TextConst.createAccount),
                     GestureDetector(
                       onTap: () {
                         // Navigate to sign in
                         Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => RegisterPage(),));
                       },
                       child: const Text(
-                        "Sign up",
+                        TextConst.signup,
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           decoration: TextDecoration.underline,

@@ -1,10 +1,10 @@
 import 'package:finote/core/constants/asset_constants.dart';
 import 'package:finote/core/constants/color_const.dart';
 import 'package:finote/core/constants/text_const.dart';
+import 'package:finote/features/auth/view/phone_verify.dart';
 import 'package:finote/features/shared/widgets/auth_container_widget.dart';
 import 'package:finote/features/bottom%20navigation/view/bottom_navigation.dart';
 import 'package:finote/features/business%20profile/view/business_profile_page.dart';
-import 'package:finote/features/home/view/home.dart';
 import 'package:finote/features/auth/controller/login_controller.dart';
 import 'package:finote/features/shared/widgets/textfield_widget.dart';
 import 'package:flutter/material.dart';
@@ -76,15 +76,16 @@ class CardWidget extends StatelessWidget {
                         }
                       },
                     ),
-                    AuthContainerWidget(
-                      path: AssetConstants.facebook,
-                      function: () {
-                        // facebook auth
-                      },
-                    ),
+                    // AuthContainerWidget(
+                    //   path: AssetConstants.facebook,
+                    //   function: () {
+                    //     // facebook auth
+                    //   },
+                    // ),
                     AuthContainerWidget(
                       path: AssetConstants.phone,
                       function: () {
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => PhoneVerifyPage(),));
                         // phone verify
                       },
                     ),

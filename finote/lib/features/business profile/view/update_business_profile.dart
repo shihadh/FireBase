@@ -128,8 +128,18 @@ class UpdateBusinessProfile extends StatelessWidget {
                                   await controller.updateData(id);
                                   if(controller.success == true){
                                     ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(content: Text(TextConst.updateSucess)),
-                                  );
+                            SnackBar(
+                              elevation: 10,
+                              behavior: SnackBarBehavior.floating,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(10),
+                                ),
+                              ),
+                              backgroundColor: ColorConst.success,
+                              content: Text(TextConst.updateSucess),
+                            ),
+                          );
                                   Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => MainBottomNavScreen(),));
                                   }
                                 }
