@@ -65,7 +65,11 @@ class AuthService {
 
   Future<(User?, String?, bool)> signWithgoogle() async {
     try {
+      await GoogleSignIn().disconnect().catchError((_){
+        return GoogleSignIn().signOut();
+      });
       final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+
       if (googleUser == null) {
         log('Sign-in cancelled by user');
         return (null, 'Sign-in cancelled by user', first);
@@ -158,7 +162,7 @@ class AuthService {
       return (false,e.toString(),first);
     }
   }
-
+  // disconect
   Future<(bool?, String?)> singOut() async {
     try {
       await FirebaseAuth.instance.signOut();

@@ -35,6 +35,7 @@ class RegisterController extends ChangeNotifier {
         stats = true;
         emailController.clear();
         passwordController.clear();
+        confirmPasswordController.clear();
       }
       await Future.delayed(Duration(seconds: 1));
       loading=false;

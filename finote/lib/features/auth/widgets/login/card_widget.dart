@@ -76,12 +76,12 @@ class CardWidget extends StatelessWidget {
                         }
                       },
                     ),
-                    // AuthContainerWidget(
-                    //   path: AssetConstants.facebook,
-                    //   function: () {
-                    //     // facebook auth
-                    //   },
-                    // ),
+                    AuthContainerWidget(
+                      path: AssetConstants.facebook,
+                      function: () {
+                        // facebook auth
+                      },
+                    ),
                     AuthContainerWidget(
                       path: AssetConstants.phone,
                       function: () {

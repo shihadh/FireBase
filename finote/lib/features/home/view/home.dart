@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:finote/core/constants/color_const.dart';
 import 'package:finote/core/constants/text_const.dart';
 import 'package:finote/features/AddTransaction/controller/add_tansaction_controller.dart';
@@ -10,20 +12,30 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
 
   String formatCurrency(double amount) {
     final formatter = NumberFormat.currency(locale: 'en_IN', symbol: '₹');
     return formatter.format(amount);
   }
+  @override
+  void initState() {
+    // TODO: implement initState
+      Provider.of<AddTansactionController>(context,listen: false).get();
 
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
+    log("message");
     final provider = context.watch<AddTansactionController>();
-    WidgetsBinding.instance.addPostFrameCallback((_){
-      provider.get();
-    });
     return Scaffold(
       backgroundColor: ColorConst.backgroundColor,
       body: Center(

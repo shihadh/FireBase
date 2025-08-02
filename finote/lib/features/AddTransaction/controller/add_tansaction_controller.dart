@@ -17,6 +17,7 @@ class AddTansactionController extends ChangeNotifier {
   String? error;
   bool loading = false;
   bool status= false;
+  bool isFetched = false;
 
   bool isIncome = true;
   String? selectedCategory;
@@ -49,6 +50,8 @@ class AddTansactionController extends ChangeNotifier {
   }
 
   Future<void>get()async{
+
+    // if (isFetched) return;
     totalIncome = 0.0;
     totalExpense = 0.0;
     totalBalance = 0.0;
@@ -71,6 +74,7 @@ class AddTansactionController extends ChangeNotifier {
       log(totalBalance.toString());
 
     }
+    // isFetched = true;
     notifyListeners();
   }
 
@@ -108,6 +112,7 @@ class AddTansactionController extends ChangeNotifier {
       selectedCategory=null;
     }
     loading= false;
+    // await get();
     notifyListeners();
   }
 
