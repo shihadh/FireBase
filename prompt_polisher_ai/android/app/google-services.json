@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "243787968515",
+    "project_id": "phone-verification-6c232",
+    "storage_bucket": "phone-verification-6c232.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:243787968515:android:ad7755b478228526b55e36",
+        "android_client_info": {
+          "package_name": "com.example.phone_verification"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAG73CRkpUtiP07WcXDsDXjwPmlatYsGes"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:243787968515:android:33743a14e070d154b55e36",
+        "android_client_info": {
+          "package_name": "com.example.prompt_polisher_ai"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAG73CRkpUtiP07WcXDsDXjwPmlatYsGes"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
