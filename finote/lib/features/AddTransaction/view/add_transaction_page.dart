@@ -77,7 +77,8 @@ class AddTransactionPage extends StatelessWidget {
                 BoldTextWidget(title: TextConst.categoryLabel, size: 20),
                 const SizedBox(height: 6),
                 DropdownButtonFormField<String>(
-                  value: controller.selectedCategory,
+                  dropdownColor: ColorConst.backgroundColor,
+                  initialValue: controller.selectedCategory,
                   decoration: inputDecoration("Select category"),
                   items: controller.categories
                       .map((e) => DropdownMenuItem(

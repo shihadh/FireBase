@@ -162,7 +162,6 @@ class AuthService {
       return (false,e.toString(),first);
     }
   }
-  // disconect
   Future<(bool?, String?)> singOut() async {
     try {
       await FirebaseAuth.instance.signOut();

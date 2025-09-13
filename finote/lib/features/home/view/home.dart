@@ -52,6 +52,7 @@ class _HomePageState extends State<HomePage> {
                   borderRadius: BorderRadius.circular(20),
                 ),
                 child: Column(
+                  
                   children: [
                     Padding(
                       padding: const EdgeInsets.all(24.0),

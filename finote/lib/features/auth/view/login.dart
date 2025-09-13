@@ -19,7 +19,6 @@ class LoginPage extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                // Logo Placeholder
                 SizedBox(
                   height: 100,
                   width: 100,
