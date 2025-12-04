@@ -12,8 +12,9 @@ class TransactionListView extends StatelessWidget {
     return Consumer<AddTansactionController>(
       builder: (context, value, _) {
         final transactions = value.transations;
-
+        
         if (transactions.isEmpty) {
+          value.download =false;
           return Center(
             child: Text(
               "No history available",
@@ -25,7 +26,8 @@ class TransactionListView extends StatelessWidget {
             ),
           );
         }
-
+          value.download =true;
+          
         return ListView.builder(
           itemCount: transactions.length,
           itemBuilder: (context, index) {

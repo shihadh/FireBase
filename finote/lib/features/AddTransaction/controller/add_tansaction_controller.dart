@@ -1,3 +1,7 @@
+import 'dart:developer';
+
+import 'package:finote/features/history/utils/pdf_utils.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:finote/core/constants/color_const.dart';
 import 'package:finote/features/AddTransaction/model/transation_model.dart';
@@ -27,9 +31,12 @@ class AddTansactionController extends ChangeNotifier {
   String? error;
   bool loading = false;
   bool status = false;
+  bool download = true;
 
   bool isIncome = true;
   String? selectedCategory;
+
+  bool _hasFetchedOnce = false;
 
   List<String> categories = ['Food', 'Transport', 'Bills', 'Salary', 'Others'];
 
@@ -58,9 +65,7 @@ class AddTansactionController extends ChangeNotifier {
               onSurface: ColorConst.blackopacity,
             ),
             textButtonTheme: TextButtonThemeData(
-              style: TextButton.styleFrom(
-                foregroundColor: ColorConst.black,
-              ),
+              style: TextButton.styleFrom(foregroundColor: ColorConst.black),
             ),
           ),
           child: child!,
@@ -74,8 +79,10 @@ class AddTansactionController extends ChangeNotifier {
     }
   }
 
-  /// Fetch all transactions and update filters
-  Future<void> get() async {
+  /// Fetch all transactions only once unless forced
+  Future<void> get({bool forceRefresh = false}) async {
+    if (_hasFetchedOnce && !forceRefresh) return;
+
     totalIncome = 0.0;
     totalExpense = 0.0;
     totalBalance = 0.0;
@@ -84,18 +91,21 @@ class AddTansactionController extends ChangeNotifier {
 
     if (errors != null) {
       error = errors;
+      notifyListeners();
+      return;
     }
 
     if (data != null) {
       allTransactions = data;
-      _updateYearRangeFromTransactions(); // update minYear & maxYear
-      setMonth(selectedMonth, selectedYear); // apply current filter
+      _updateYearRangeFromTransactions();
+      _hasFetchedOnce = true;
+      setMonth(selectedMonth, selectedYear);
     }
 
     notifyListeners();
   }
 
-  /// Add a new transaction
+  ///  Add a new transaction and refresh
   Future<void> add(BuildContext context) async {
     if (amountController.text.isEmpty ||
         dateController.text.isEmpty ||
@@ -128,17 +138,35 @@ class AddTansactionController extends ChangeNotifier {
       status = true;
       amountController.clear();
       dateController.clear();
-      noteController.clear();
       selectedCategory = null;
 
-      await get(); // refresh all transactions
+      _hasFetchedOnce = false;
+      await get(forceRefresh: true); // refresh after add
+
+      //added funtion on the save button
+      //analytics function
+      final analytics = FirebaseAnalytics.instance;
+
+      if (noteController.text.trim().isNotEmpty) {
+        await analytics.logEvent(
+          name: "note_used",
+          parameters: {
+            "length": noteController.text.trim().length,
+          },
+        );
+      } else {
+        await analytics.logEvent(
+          name: "note_skipped",
+        );
+      }
+      noteController.clear();
     }
 
     loading = false;
     notifyListeners();
   }
 
-  /// Delete a transaction by ID
+  ///  Delete a transaction and refresh
   Future<void> delete(String id) async {
     status = false;
     error = null;
@@ -150,20 +178,21 @@ class AddTansactionController extends ChangeNotifier {
 
     if (stat == true) {
       status = true;
-      await get();
+      _hasFetchedOnce = false;
+      await get(forceRefresh: true); // refresh after delete
     }
 
     notifyListeners();
   }
 
-  /// Update filter selection
+  ///  Update filter selection
   void updateSelectedDate(int month, int year) {
     selectedMonth = month;
     selectedYear = year;
     setMonth(month, year);
   }
 
-  /// Set filtered month and recalculate totals
+  ///  Set filtered month and recalculate totals
   void setMonth(int month, int year) {
     transations = _filterByMonth(month, year);
 
@@ -180,10 +209,14 @@ class AddTansactionController extends ChangeNotifier {
     }
 
     totalBalance = totalIncome - totalExpense;
+
+    // Notify whether PDF button should show
+    download = transations.isNotEmpty;
+
     notifyListeners();
   }
 
-  /// Filter from allTransactions
+  ///  Filter transactions by month/year
   List<TransationModel> _filterByMonth(int month, int year) {
     return allTransactions.where((item) {
       try {
@@ -195,7 +228,7 @@ class AddTansactionController extends ChangeNotifier {
     }).toList();
   }
 
-  /// Update minYear & maxYear based on all transactions
+  ///  Update available year range based on data
   void _updateYearRangeFromTransactions() {
     if (allTransactions.isEmpty) {
       minYear = DateTime.now().year;
@@ -213,5 +246,14 @@ class AddTansactionController extends ChangeNotifier {
 
     minYear = years.reduce((a, b) => a < b ? a : b);
     maxYear = years.reduce((a, b) => a > b ? a : b);
+  }
+
+  ///  Export to PDF
+  Future<void> exportFilteredToPDF() async {
+    await PDFUtils.exportTransactionsToPDF(
+      transactions: transations,
+      month: selectedMonth,
+      year: selectedYear,
+    );
   }
 }

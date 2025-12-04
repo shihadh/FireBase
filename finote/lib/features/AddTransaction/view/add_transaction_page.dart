@@ -3,6 +3,7 @@ import 'package:finote/core/constants/text_const.dart';
 import 'package:finote/features/AddTransaction/controller/add_tansaction_controller.dart';
 import 'package:finote/features/AddTransaction/widget/button_type_widget.dart';
 import 'package:finote/features/shared/widgets/bold_text_widget.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

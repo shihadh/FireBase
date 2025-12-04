@@ -116,6 +116,9 @@ class TextConst {
   static const String income = "Income";
   static const String expence = "Expenses";
 
+  //histary page
+  static const String historytitle = "Transaction History";
+
 
 
   

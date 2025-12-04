@@ -9,7 +9,7 @@ class ColorConst {
   static const Color transparent = Colors.transparent;
 
   //  Alerts & Status
-  static const Color danger = Colors.red;
+  static const Color danger = Color.fromARGB(255, 255, 88, 76);
   static final Color success = const Color.fromARGB(194, 0, 232, 108);
   static const Color dangerbg = Color.fromARGB(255, 254, 242, 242);
 

@@ -3,11 +3,13 @@ import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:finote/features/AddTransaction/model/transation_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/widgets.dart';
 
 class TransationService {
 
   Future<(List<TransationModel>?,String?)>getTransation()async{
     try{
+      debugPrint("feaching");
       final uid = FirebaseAuth.instance.currentUser!.uid;
       final snapshot = await FirebaseFirestore.instance.collection('profile').doc(uid).collection('Transation').get();
       
@@ -23,7 +25,7 @@ class TransationService {
     try{
       final uid = FirebaseAuth.instance.currentUser!.uid;
       await FirebaseFirestore.instance.collection('profile').doc(uid).collection("Transation").add(data.toJson());
-      log(data.toJson().toString());
+      // log(data.toJson().toString());
       return (true,null);
     }catch(e){
       return (false,e.toString());
