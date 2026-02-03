@@ -18,7 +18,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  @override
+   @override
   void initState() {
     super.initState();
     // Initial fetch
@@ -27,39 +27,68 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
-  @override
-  Widget build(BuildContext context) {
-    final provider = context.watch<AddTansactionController>();
-
-    return Scaffold(
-      backgroundColor: ColorConst.backgroundColor,
-      body: RefreshIndicator(
-        onRefresh: () async {
-          await context.read<AddTansactionController>().get(forceRefresh: true);
+ @override
+Widget build(BuildContext context) {
+  return Scaffold(
+    backgroundColor: ColorConst.backgroundColor,
+    body: RefreshIndicator(
+      onRefresh: () async {
+        await context.read<AddTansactionController>().get(forceRefresh: true);
+      },
+      color: ColorConst.black,
+      backgroundColor: ColorConst.white,
+      child: Consumer<AddTansactionController>(
+        builder: (context, provider, _) {
+          final transactions = provider.transations; // filtered by selected month/year
+          
+          return ListView(
+            padding: const EdgeInsets.all(15.0),
+            children: [
+              BoldTextWidget(title: TextConst.signInTitle, size: 20),
+              GapWidget(),
+              BalanceCardWidget(balance: provider.totalBalance),
+              GapWidget(),
+              Row(
+                children: const [
+                  Expanded(child: IncomeCardWidget()),
+                  Expanded(child: ExpenseCardWidget()),
+                ],
+              ),
+              GapWidget(),
+              IncomeExpensePieChart(
+                income: provider.totalIncome,
+                expense: provider.totalExpense,
+              ),
+              GapWidget(),
+              BoldTextWidget(title: "Recent Transactions", size: 18),
+              SizedBox(height: 5,),
+              if (transactions.isEmpty)
+                const Center(child: Text("No transactions"))
+              else
+                ...transactions.take(3).map(
+                  (tx) => Card(
+                    color: ColorConst.white,
+                    margin: const EdgeInsets.symmetric(vertical: 6),
+                    child: ListTile(
+                     
+                      title: Text(tx.note ?? "No Note"),
+                      subtitle: Text("${tx.category} • ${tx.date}"),
+                      trailing: Text(
+                        "${tx.type == "income" ? "+ " : "- "}${tx.amount}",
+                        style: TextStyle(
+                          color: tx.type == "income" ? ColorConst.success : ColorConst.danger,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+            ],
+          );
         },
-        color: ColorConst.black,
-        backgroundColor: ColorConst.white,
-        child: ListView(
-          padding: const EdgeInsets.all(15.0),
-          children: [
-            BoldTextWidget(title: TextConst.signInTitle, size: 20),
-            GapWidget(),
-            BalanceCardWidget(balance: provider.totalBalance),
-            GapWidget(),
-            Row(
-              children: const [
-                Expanded(child: IncomeCardWidget()),
-                Expanded(child: ExpenseCardWidget()),
-              ],
-            ),
-            GapWidget(),
-            IncomeExpensePieChart(
-              income: provider.totalIncome,
-              expense: provider.totalExpense,
-            ),
-          ],
-        ),
       ),
-    );
-  }
+    ),
+  );
+}
+
 }

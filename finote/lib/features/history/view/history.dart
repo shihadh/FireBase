@@ -28,12 +28,34 @@ class HistoryPage extends StatelessWidget {
           children: [
             const MonthYearDropdownRow(),
             const SizedBox(height: 20),
+            Consumer<AddTansactionController>(
+              builder: (context, controller, child) {
+                if (controller.isGeneratingInsight) {
+                  return const CircularProgressIndicator(color: ColorConst.black,);
+                }
 
-            // Add RefreshIndicator 
+                if (controller.previousMonthAIInsight == null) {
+                  return const SizedBox.shrink();
+                }
+
+                return Card(
+                  child: Padding(
+                    padding: const EdgeInsets.all(12),
+                    child: Text(controller.previousMonthAIInsight!),
+                  ),
+                );
+              },
+            ),
+
+            const SizedBox(height: 20),
+
+            // Add RefreshIndicator
             Expanded(
               child: RefreshIndicator(
                 onRefresh: () async {
-                  await context.read<AddTansactionController>().get(forceRefresh: true);
+                  await context.read<AddTansactionController>().get(
+                    forceRefresh: true,
+                  );
                 },
                 color: ColorConst.black,
                 backgroundColor: ColorConst.white,
@@ -53,10 +75,7 @@ class HistoryPage extends StatelessWidget {
             onPressed: () => value.exportFilteredToPDF(),
             backgroundColor: ColorConst.black,
             shape: const CircleBorder(),
-            child: const Icon(
-              Icons.download,
-              color: ColorConst.white,
-            ),
+            child: const Icon(Icons.download, color: ColorConst.white),
           );
         },
       ),

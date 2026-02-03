@@ -52,6 +52,7 @@ class HistoryTile extends StatelessWidget {
             ),
             const SizedBox(width: 8),
             PopupMenuButton<String>(
+              color: ColorConst.white,
               onSelected: (val) async {
                 if (val == 'delete') {
                   await provider.delete(txn.id!);
