@@ -33,10 +33,11 @@ class MainBottomNavScreen extends StatelessWidget {
             automaticallyImplyLeading: false, // This hides the back button
           backgroundColor: ColorConst.backgroundColor,
             actions: [
+              controller.currentIndex == 1 ?
               IconButton(onPressed: (){
                 showReceiptPicker(context);
               }, 
-              icon: Icon(Icons.qr_code_scanner_outlined)),
+              icon: Icon(Icons.qr_code_scanner_outlined)) :const SizedBox.shrink(),
               Padding(
                 padding: const EdgeInsets.all(10.0),
                 child: GestureDetector(

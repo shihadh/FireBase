@@ -3,7 +3,7 @@ import 'package:firebase_ai/firebase_ai.dart';
 class AIInsightService {
 
   final model = FirebaseAI.googleAI().generativeModel(
-    model: 'gemini-1.5-flash',
+    model: 'gemini-2.0-flash'
   );
 
   Future<String> generateInsight({
