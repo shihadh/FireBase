@@ -1,6 +1,7 @@
 import 'package:finote/core/constants/color_const.dart';
 import 'package:finote/features/AddTransaction/controller/add_tansaction_controller.dart';
 import 'package:finote/features/AddTransaction/view/add_transaction_page.dart';
+import 'package:finote/features/ai_chat/view/ai_chat_page.dart';
 import 'package:finote/features/bottom%20navigation/controller/bottom_navigation_controller.dart';
 import 'package:finote/features/history/view/history.dart';
 import 'package:finote/features/home/view/home.dart';
@@ -33,6 +34,12 @@ class MainBottomNavScreen extends StatelessWidget {
             automaticallyImplyLeading: false, // This hides the back button
           backgroundColor: ColorConst.backgroundColor,
             actions: [
+
+              IconButton(onPressed: (){
+                Navigator.push(context, MaterialPageRoute(builder: (context) => AiChatPage(),));
+              }, 
+              icon: Icon(Icons.smart_toy_outlined)),
+
               controller.currentIndex == 1 ?
               IconButton(onPressed: (){
                 showReceiptPicker(context);

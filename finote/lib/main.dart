@@ -1,5 +1,6 @@
 import 'dart:developer';
 import 'package:finote/features/AddTransaction/controller/add_tansaction_controller.dart';
+import 'package:finote/features/ai_chat/controller/ai_chat_controller.dart';
 import 'package:finote/features/auth/controller/phone_verify_controller.dart';
 import 'package:finote/features/auth/view/auth_gate.dart';
 import 'package:finote/features/bottom%20navigation/controller/bottom_navigation_controller.dart';
@@ -74,6 +75,7 @@ notificationService.scheduleInactivityReminder(
       ChangeNotifierProvider(create: (context) => UpdateBusinessController(),),
       ChangeNotifierProvider(create: (context) => AddTansactionController(),),
       ChangeNotifierProvider(create: (context) => PhoneVerifyController(),),
+      ChangeNotifierProvider(create: (context) => AiChatController(),),
     ],
     child: const MyApp()));
 }
