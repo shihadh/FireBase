@@ -1,52 +1,53 @@
-
 import 'dart:developer';
 
-import 'package:firebase_ai/firebase_ai.dart';
+import 'package:finote/core/constants/api_constant.dart';
+import 'package:google_generative_ai/google_generative_ai.dart';
 
-class FirebaseAiChatService {
+class GeminiAiChatService {
+  static const String _apiKey = ApiConstant.apiKey;
 
-  final _model = FirebaseAI.googleAI().generativeModel(
-    model: 'gemini-2.0-flash',
+  final GenerativeModel _model = GenerativeModel(
+    model: 'gemini-2.5-flash',
+    apiKey: _apiKey,
   );
 
-  
-  Future<String> askFinanceQuestion({
+   Future<String> askFinanceQuestion({
     required String question,
-    required Map<String, dynamic> summary,
+    required String financeHistory,
   }) async {
-      log(  'Asking AI with question: $question and summary: $summary');
-    final prompt = """
-      You are Finote AI, a friendly and smart personal finance assistant.
+    try {
 
-      Speak naturally like a helpful assistant.
+      final prompt = """
+        You are Finote AI, a smart and friendly finance assistant.
 
-      Rules:
-      - Keep answers short
-      - Be conversational
-      - Use emojis occasionally
-      - Only talk about finance data provided
-      - If user greets, greet back warmly
-      - If user asks unrelated questions, politely guide them back to finance
+        Rules:
+        - Keep answers short
+        - Be conversational
+        - Use emojis occasionally
+        - Only talk using finance data provided
+        - If data missing, politely say you don't have info
 
-      User Financial Summary:
-      Income: ₹${summary['income']}
-      Expense: ₹${summary['expense']}
-      Transaction Count: ${summary['count']}
+        User Finance History:
+        $financeHistory
 
-      Category Breakdown:
-      ${summary['categories']}
+        User Question:
+        $question
 
-      User Question:
-      $question
+        Answer:
+        """;
 
-      Answer:
-      """;
+      log("AI Prompt:\n$prompt");
 
-    log(  'Generated prompt for AI: $prompt');
-    final response = await _model.generateContent([
-      Content.text(prompt)
-    ]);
-    log( 'AI Response: ${response.text}');
-    return response.text ?? "Sorry, no response.";
+      final response = await _model.generateContent(
+        [Content.text(prompt)],
+      );
+
+      return response.text?.trim() ??
+          "I couldn't analyze that 🤔";
+
+    } catch (e, s) {
+      log("Gemini Error: $e", stackTrace: s);
+      return "I'm having trouble analyzing your finances 😕";
+    }
   }
 }

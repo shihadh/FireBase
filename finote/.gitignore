@@ -55,3 +55,5 @@ android/key.properties
 
 # Environment files
 .env
+
+lib/core/constants/api_constant.dart
