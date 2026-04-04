@@ -39,9 +39,10 @@ class HistoryPage extends StatelessWidget {
                 }
 
                 return Card(
+                  color: ColorConst.black,
                   child: Padding(
                     padding: const EdgeInsets.all(12),
-                    child: Text(controller.previousMonthAIInsight!),
+                    child: Text(controller.previousMonthAIInsight!, style: TextStyle(color: ColorConst.white),),
                   ),
                 );
               },

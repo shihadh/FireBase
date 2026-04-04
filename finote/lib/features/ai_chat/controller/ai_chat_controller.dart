@@ -1,28 +1,28 @@
 import 'dart:developer';
 
+import 'package:finote/features/shared/service/ai_chat_service.dart';
 import 'package:flutter/material.dart';
 import '../model/chat_message_model.dart';
 import '../../AddTransaction/model/transation_model.dart';
-import '../../shared/service/ai_chat_service.dart';
 import '../../shared/helper/finance_summary_helper.dart';
 
 class AiChatController extends ChangeNotifier {
-
   List<ChatMessageModel> messages = [];
 
   bool isLoading = false;
 
   final textController = TextEditingController();
 
-  final GeminiAiChatService aiService =
-      GeminiAiChatService();
+  final ChatAIService aiService = ChatAIService();
 
-  // ---------------- SEND MESSAGE ----------------
+  //  SEND MESSAGE 
 
   Future<void> sendMessage(
     String question,
     List<TransationModel> allTransactions,
   ) async {
+    /// Prevent duplicate calls
+    if (isLoading) return;
 
     if (question.trim().isEmpty) return;
 
@@ -35,13 +35,14 @@ class AiChatController extends ChangeNotifier {
       ),
     );
 
-    /// Greeting
-    if (_isGreeting(question)) {
+    /// Clear input field
+    textController.clear();
 
+    /// Greeting handling
+    if (_isGreeting(question)) {
       messages.add(
         ChatMessageModel(
-          message:
-              "Hey 👋 Ask me anything about your finances!",
+          message: "Hey 👋 Ask me anything about your finances!",
           isUser: false,
           time: DateTime.now(),
         ),
@@ -55,13 +56,11 @@ class AiChatController extends ChangeNotifier {
     notifyListeners();
 
     try {
-
+      /// Empty data case
       if (allTransactions.isEmpty) {
-
         messages.add(
           ChatMessageModel(
-            message:
-                "You don't have any transactions yet 📭",
+            message: "You don't have any transactions yet 📭",
             isUser: false,
             time: DateTime.now(),
           ),
@@ -72,40 +71,36 @@ class AiChatController extends ChangeNotifier {
         return;
       }
 
-      /// Build full finance intelligence
+      /// Build finance summary
       final summary =
-          FinanceSummaryHelper.buildFullSummary(
-              allTransactions);
+          FinanceSummaryHelper.buildFullSummary(allTransactions);
 
       final historyText =
-          FinanceSummaryHelper.formatSummaryForAI(
-              summary);
+          FinanceSummaryHelper.formatSummaryForAI(summary);
 
       log("Finance History:\n$historyText");
 
-      ///  Call AI
-      final aiResponse =
-          await aiService.askFinanceQuestion(
+      /// Call AI
+      final aiResponse = await aiService.askFinanceQuestion(
         question: question,
         financeHistory: historyText,
+        historyMessages: _buildHistory(),
       );
 
+      /// Add AI response
       messages.add(
         ChatMessageModel(
-          message: aiResponse,
+          message: aiResponse.toString(),
           isUser: false,
           time: DateTime.now(),
         ),
       );
-
     } catch (e, s) {
-
       log("AI Chat Error: $e", stackTrace: s);
 
       messages.add(
         ChatMessageModel(
-          message:
-              "Something went wrong. Try again.",
+          message: "Something went wrong. Try again 😕",
           isUser: false,
           time: DateTime.now(),
         ),
@@ -116,8 +111,22 @@ class AiChatController extends ChangeNotifier {
     notifyListeners();
   }
 
-  bool _isGreeting(String text) {
+  // CHAT HISTORY 
 
+ List<Map<String, String>> _buildHistory() {
+  final recentMessages = messages.length > 6
+      ? messages.sublist(messages.length - 6)
+      : messages;
+
+  return recentMessages.map((m) => {
+        "role": m.isUser ? "user" : "assistant",
+        "content": m.message,
+      }).toList();
+}
+
+  //  GREETING
+
+  bool _isGreeting(String text) {
     final greetings = [
       "hi",
       "hello",
@@ -127,10 +136,10 @@ class AiChatController extends ChangeNotifier {
       "good afternoon"
     ];
 
-    return greetings.contains(
-      text.toLowerCase().trim(),
-    );
+    return greetings.contains(text.toLowerCase().trim());
   }
+
+  // DISPOSE 
 
   @override
   void dispose() {

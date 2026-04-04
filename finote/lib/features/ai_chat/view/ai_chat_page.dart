@@ -1,6 +1,7 @@
 import 'package:finote/core/constants/color_const.dart';
 import 'package:finote/features/AddTransaction/controller/add_tansaction_controller.dart';
 import 'package:finote/features/ai_chat/controller/ai_chat_controller.dart';
+import 'package:finote/features/ai_chat/view/voice_assistant_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -34,15 +35,29 @@ class _AiChatPageState extends State<AiChatPage> {
         context.read<AddTansactionController>();
 
     return Scaffold(
+      backgroundColor: ColorConst.backgroundColor,
       appBar: AppBar(
+        backgroundColor: ColorConst.backgroundColor,
         title: const Text("Finote AI Assistant"),
         centerTitle: true,
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.mic, color: ColorConst.black),
+            tooltip: 'Voice Assistant',
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const VoiceAssistantPage()),
+              );
+            },
+          )
+        ],
       ),
 
       body: Column(
         children: [
 
-          /// ---------------- CHAT LIST ----------------
+          //CHAT LIST
           Expanded(
             child: Consumer<AiChatController>(
               builder: (_, controller, __) {
@@ -60,17 +75,18 @@ class _AiChatPageState extends State<AiChatPage> {
 
                     /// Typing Indicator
                     if (index == controller.messages.length) {
-                      return const Padding(
-                        padding: EdgeInsets.symmetric(
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(
                           horizontal: 16,
                           vertical: 8,
                         ),
                         child: Align(
                           alignment: Alignment.centerLeft,
-                          child: Text(
-                            "AI is typing...",
+                          child: const Text(
+                            "Thinking...",
                             style: TextStyle(
                               fontStyle: FontStyle.italic,
+                              color: Colors.grey,
                             ),
                           ),
                         ),
@@ -96,8 +112,8 @@ class _AiChatPageState extends State<AiChatPage> {
 
                         decoration: BoxDecoration(
                           color: msg.isUser
-                              ? Colors.blue
-                              : Colors.grey.shade300,
+                              ? ColorConst.black
+                              : ColorConst.white,
 
                           borderRadius: BorderRadius.only(
                             topLeft: const Radius.circular(16),
@@ -127,7 +143,7 @@ class _AiChatPageState extends State<AiChatPage> {
             ),
           ),
 
-          /// ---------------- INPUT AREA ----------------
+          ///INPUT AREA
           SafeArea(
             child: Container(
               padding: const EdgeInsets.symmetric(
@@ -135,7 +151,7 @@ class _AiChatPageState extends State<AiChatPage> {
                 vertical: 6,
               ),
               decoration: BoxDecoration(
-                color: Theme.of(context).scaffoldBackgroundColor,
+                color: ColorConst.backgroundColor,
                 boxShadow: [
                   BoxShadow(
                     color: Colors.black12,

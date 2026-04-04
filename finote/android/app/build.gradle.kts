@@ -8,6 +8,7 @@ plugins {
 android {
     namespace = "com.example.finote"
     compileSdk = flutter.compileSdkVersion
+    ndkVersion = "28.2.13676358"
 
     defaultConfig {
         applicationId = "com.example.finote"
